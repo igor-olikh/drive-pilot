@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.drivepilot.app",
+      "bundleIdentifier": "com.igorolikh.drivepilot",
       "infoPlist": {
         "NSLocationAlwaysAndWhenInUseUsageDescription": "DrivePilot needs location to detect driving speed in background.",
         "NSLocationWhenInUseUsageDescription": "DrivePilot needs location to detect driving speed.",
@@ -69,13 +69,6 @@
           "isIosBackgroundLocationEnabled": true,
           "isAndroidBackgroundLocationEnabled": true,
           "isAndroidForegroundServiceEnabled": true
-        }
-      ],
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/images/notification-icon.png",
-          "color": "#4f46e5"
         }
       ],
       [

@@ -1,10 +1,10 @@
 // import Voice, { SpeechResultsEvent, SpeechErrorEvent } from '@react-native-voice/voice';
-import Constants from 'expo-constants';
 import * as Speech from 'expo-speech';
 import { Platform } from 'react-native';
 import { useDriveStore } from '../../store/driveStore';
 import { AudioSessionService } from '../audio/AudioSessionService';
 
+// Safe Import for Voice (Not supported in Expo Go)
 // Safe Import for Voice (Not supported in Expo Go)
 let Voice: any = {
     destroy: async () => { },
@@ -16,12 +16,17 @@ let Voice: any = {
 };
 
 try {
-    if (Constants.appOwnership !== 'expo') {
-        const VoiceModule = require('@react-native-voice/voice');
+    // Try to load the native module irrespective of environment check
+    // If it's Expo Go, this require might fail or return null, which we catch.
+    const VoiceModule = require('@react-native-voice/voice');
+    if (VoiceModule && (VoiceModule.default || VoiceModule)) {
         Voice = VoiceModule.default || VoiceModule;
+        console.log('✅ Native Voice Module Loaded');
+    } else {
+        console.log('⚠️ Native Voice Module not found, using Mock');
     }
 } catch (e) {
-    console.warn("Voice module failed to load:", e);
+    console.log('⚠️ Failed to load Native Voice (using Mock):', e);
 }
 
 class VoiceInteractionModuleImpl {
