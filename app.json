@@ -85,7 +85,8 @@
           ],
           "bluetoothAlwaysPermission": "DrivePilot uses Bluetooth to detect your car connection."
         }
-      ]
+      ],
+      "expo-audio"
     ],
     "experiments": {
       "typedRoutes": true
