@@ -1,28 +1,55 @@
 {
   "expo": {
-    "name": "drive-pilot-init",
-    "slug": "drive-pilot-init",
+    "name": "DrivePilot",
+    "slug": "drive-pilot",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "drivepilotinit",
+    "scheme": "drivepilot",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1a1a2e"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.drivepilot.app",
+      "infoPlist": {
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "DrivePilot needs location access to automatically track your drives and provide driving insights.",
+        "NSLocationWhenInUseUsageDescription": "DrivePilot uses your location to detect when you start driving.",
+        "NSLocationAlwaysUsageDescription": "DrivePilot needs background location access to track your drives even when the app is closed.",
+        "NSBluetoothAlwaysUsageDescription": "DrivePilot uses Bluetooth to detect when you connect to your car.",
+        "NSBluetoothPeripheralUsageDescription": "DrivePilot uses Bluetooth to detect your car connection.",
+        "UIBackgroundModes": [
+          "location",
+          "fetch",
+          "remote-notification",
+          "bluetooth-central",
+          "processing"
+        ]
+      }
     },
     "android": {
+      "package": "com.drivepilot.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1a1a2e"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "BLUETOOTH",
+        "BLUETOOTH_ADMIN",
+        "BLUETOOTH_CONNECT",
+        "BLUETOOTH_SCAN",
+        "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_LOCATION",
+        "RECEIVE_BOOT_COMPLETED"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -30,10 +57,43 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "DrivePilot needs location access to automatically track your drives.",
+          "locationAlwaysPermission": "DrivePilot needs background location access to track drives when the app is closed.",
+          "locationWhenInUsePermission": "DrivePilot uses your location to detect driving.",
+          "isIosBackgroundLocationEnabled": true,
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#4f46e5"
+        }
+      ],
+      [
+        "react-native-ble-plx",
+        {
+          "isBackgroundEnabled": true,
+          "modes": [
+            "central"
+          ],
+          "bluetoothAlwaysPermission": "DrivePilot uses Bluetooth to detect your car connection."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "your-project-id"
+      }
     }
   }
 }
