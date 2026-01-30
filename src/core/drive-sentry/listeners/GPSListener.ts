@@ -8,6 +8,7 @@
  * - Background task registration via expo-task-manager
  */
 
+import * as Location from 'expo-location';
 import type { GPSListenerState, LocationData, TrackingMode } from '../types';
 
 // Background task name for location tracking
@@ -79,17 +80,40 @@ export class GPSListener {
         this.locationCallback = callback;
     }
 
-    // Placeholder methods - to be implemented
     async initialize(): Promise<void> {
-        throw new Error('Not implemented');
+        // Already handled by PermissionService mostly, but good hook for setup
+        console.log('GPS Listener initialized');
     }
 
     async startBackgroundTracking(): Promise<void> {
-        throw new Error('Not implemented');
+        console.log('Starting GPS background tracking...');
+
+        // Register background task
+        try {
+            await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+                accuracy: Location.Accuracy.High,
+                timeInterval: 5000, // 5 seconds
+                distanceInterval: 10, // 10 meters
+                foregroundService: {
+                    notificationTitle: "DrivePilot Active",
+                    notificationBody: "Monitoring your drive..."
+                },
+                showsBackgroundLocationIndicator: true
+            });
+            this.state.isTracking = true;
+        } catch (e) {
+            console.error('Failed to start background location:', e);
+            throw e;
+        }
     }
 
     async stopBackgroundTracking(): Promise<void> {
-        throw new Error('Not implemented');
+        try {
+            await Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME);
+            this.state.isTracking = false;
+        } catch (e) {
+            console.warn('Error stopping location updates:', e);
+        }
     }
 
     setTrackingMode(mode: TrackingMode): void {
@@ -98,7 +122,16 @@ export class GPSListener {
     }
 
     async getCurrentLocation(): Promise<LocationData> {
-        throw new Error('Not implemented');
+        const loc = await Location.getCurrentPositionAsync({});
+        return {
+            latitude: loc.coords.latitude,
+            longitude: loc.coords.longitude,
+            altitude: loc.coords.altitude,
+            accuracy: loc.coords.accuracy,
+            speed: loc.coords.speed,
+            heading: loc.coords.heading,
+            timestamp: loc.timestamp
+        };
     }
 }
 
