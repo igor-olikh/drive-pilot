@@ -29,7 +29,7 @@ export interface LocationData {
   latitude: number;
   longitude: number;
   altitude: number | null;
-  accuracy: number;
+  accuracy: number | null;
   speed: number | null;       // m/s
   heading: number | null;     // degrees (0-360)
   timestamp: number;          // Unix ms
@@ -60,17 +60,17 @@ export interface DriveSession {
   startTime: Date;
   endTime: Date | null;
   status: SessionStatus;
-  
+
   // Triggers
   startTrigger: SessionTrigger;
   endTrigger: SessionTrigger | null;
-  
+
   // Stats (computed on session end)
   totalDistance: number;       // meters
   totalDuration: number;       // seconds
   averageSpeed: number;        // m/s
   maxSpeed: number;            // m/s
-  
+
   // Raw data reference
   waypointCount: number;
 }
@@ -143,7 +143,7 @@ export const CAR_BLUETOOTH_PATTERNS: RegExp[] = [
 // DriveSentry State
 // ============================================================================
 
-export type DriveSentryStatus = 
+export type DriveSentryStatus =
   | 'idle'          // Not monitoring
   | 'monitoring'    // Listening for triggers
   | 'detecting'     // Possible drive detected, gathering data
