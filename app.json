@@ -14,19 +14,21 @@
       "backgroundColor": "#1a1a2e"
     },
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.drivepilot.app",
       "infoPlist": {
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "DrivePilot needs location access to automatically track your drives and provide driving insights.",
-        "NSLocationWhenInUseUsageDescription": "DrivePilot uses your location to detect when you start driving.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "DrivePilot needs location to detect driving speed in background.",
+        "NSLocationWhenInUseUsageDescription": "DrivePilot needs location to detect driving speed.",
         "NSLocationAlwaysUsageDescription": "DrivePilot needs background location access to track your drives even when the app is closed.",
-        "NSBluetoothAlwaysUsageDescription": "DrivePilot uses Bluetooth to detect when you connect to your car.",
+        "NSBluetoothAlwaysUsageDescription": "DrivePilot needs Bluetooth to detect your car stereotype.",
         "NSBluetoothPeripheralUsageDescription": "DrivePilot uses Bluetooth to detect your car connection.",
+        "NSMicrophoneUsageDescription": "DrivePilot needs access to the microphone to hear your commands.",
+        "NSSpeechRecognitionUsageDescription": "DrivePilot needs speech recognition to understand your voice commands.",
         "UIBackgroundModes": [
           "location",
-          "fetch",
-          "remote-notification",
+          "audio",
           "bluetooth-central",
+          "fetch",
           "processing"
         ]
       }
@@ -86,7 +88,8 @@
           "bluetoothAlwaysPermission": "DrivePilot uses Bluetooth to detect your car connection."
         }
       ],
-      "expo-audio"
+      "expo-audio",
+      "@react-native-voice/voice"
     ],
     "experiments": {
       "typedRoutes": true
