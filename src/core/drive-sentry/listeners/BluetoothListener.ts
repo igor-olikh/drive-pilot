@@ -8,6 +8,7 @@
  * - Running as a background task via expo-task-manager
  */
 
+import Constants from 'expo-constants';
 import { BleManager } from 'react-native-ble-plx';
 import type { BluetoothDevice, BluetoothListenerState } from '../types';
 
@@ -68,7 +69,19 @@ export class BluetoothListener {
 
     async initialize(): Promise<void> {
         if (!this.bleManager) {
-            this.bleManager = new BleManager();
+            // Check if we are in Expo Go
+            const isExpoGo = Constants.appOwnership === 'expo';
+
+            if (isExpoGo) {
+                console.warn('⚠️ Running in Expo Go: Bluetooth features disabled. Please use a Development Build for full BLE support.');
+                return;
+            }
+
+            try {
+                this.bleManager = new BleManager();
+            } catch (e) {
+                console.warn('Failed to initialize BLE Manager:', e);
+            }
         }
     }
 
