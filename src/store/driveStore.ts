@@ -5,10 +5,12 @@ interface DriveState {
     isBluetoothConnected: boolean;
     isMoving: boolean;
     currentSessionId: string | null;
+    voiceStatus: 'idle' | 'speaking' | 'listening' | 'processing';
 
     // Actions
     setBluetoothConnected: (connected: boolean) => void;
     setMoving: (moving: boolean) => void;
+    setVoiceStatus: (status: 'idle' | 'speaking' | 'listening' | 'processing') => void;
     startDrive: () => void;
     stopDrive: () => void;
 }
@@ -18,6 +20,7 @@ export const useDriveStore = create<DriveState>((set, get) => ({
     isBluetoothConnected: false,
     isMoving: false,
     currentSessionId: null,
+    voiceStatus: 'idle',
 
     setBluetoothConnected: (connected) => {
         set({ isBluetoothConnected: connected });
@@ -26,7 +29,6 @@ export const useDriveStore = create<DriveState>((set, get) => ({
         if (connected && !isDriving) {
             get().startDrive();
         }
-        // Note: Disconnection doesn't immediately stop drive (could be traffic)
     },
 
     setMoving: (moving) => {
@@ -38,6 +40,8 @@ export const useDriveStore = create<DriveState>((set, get) => ({
         }
     },
 
+    setVoiceStatus: (status) => set({ voiceStatus: status }),
+
     startDrive: () => set({
         isDriving: true,
         currentSessionId: Date.now().toString()
@@ -45,6 +49,7 @@ export const useDriveStore = create<DriveState>((set, get) => ({
 
     stopDrive: () => set({
         isDriving: false,
-        currentSessionId: null
+        currentSessionId: null,
+        voiceStatus: 'idle'
     }),
 }));
