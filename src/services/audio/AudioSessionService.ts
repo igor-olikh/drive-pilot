@@ -38,8 +38,9 @@ class AudioSessionServiceImpl {
             // Ensure our session is active so ducking kicks in
             await setIsAudioActiveAsync(true);
 
-            // Re-assert mode just in case
+            // Re-assert mode just in case (Explicitly set playsInSilentMode for iOS)
             await setAudioModeAsync({
+                playsInSilentMode: true,
                 interruptionMode: 'duckOthers',
             });
         } catch (error) {
