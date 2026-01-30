@@ -9,13 +9,14 @@ const RING_SIZE = width * 0.7;
 
 export const MainDashboard = () => {
     const isDriving = useDriveStore((state) => state.isDriving);
+    const voiceStatus = useDriveStore((state) => state.voiceStatus);
     const isBluetoothConnected = useDriveStore((state) => state.isBluetoothConnected);
     const startDrive = useDriveStore((state) => state.startDrive);
     const stopDrive = useDriveStore((state) => state.stopDrive);
 
-    const statusColor = isDriving ? '#00FF9D' : '#FFBF00';
-    const statusText = isDriving ? 'SENTINEL ACTIVE' : 'SENTRY STANDBY';
-    const subText = isDriving ? 'DRIVE MODE: ON' : 'LISTENING...';
+    const statusColor = voiceStatus === 'listening' ? '#00FFFF' : (isDriving ? '#00FF9D' : '#FFBF00');
+    const statusText = voiceStatus === 'listening' ? 'LISTENING...' : (isDriving ? 'SENTINEL ACTIVE' : 'SENTRY STANDBY');
+    const subText = voiceStatus === 'listening' ? 'Speak Now' : (isDriving ? 'DRIVE MODE: ON' : 'LISTENING...');
 
     return (
         <View style={styles.container}>
