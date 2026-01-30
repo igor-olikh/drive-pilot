@@ -29,8 +29,8 @@ export function usePersonalizationEngine() {
         const COOLDOWN_MS = 60 * 60 * 1000; // 1 hour
 
         if (now - lastInterventionTime < COOLDOWN_MS) {
-            console.log('Skipping greeting: Cooldown active');
-            return;
+            console.log('Skipping greeting: Cooldown active (DISABLED FOR TESTING)');
+            // return; // DISABLED FOR TESTING
         }
 
         // Check goals to formulate greeting
