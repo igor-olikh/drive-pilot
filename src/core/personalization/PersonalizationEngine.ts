@@ -37,14 +37,31 @@ export function usePersonalizationEngine() {
         if (goals.includes('learn_english')) {
             console.log('Triggering Personalization: English Lesson');
             try {
-                // Update timestamp first to prevent double-trigger
+                // Update timestamp
                 setLastIntervention(now);
 
-                // Trigger Voice
-                // "Audio Ducking" happens automatically inside speak()
+                // 1. Speak
                 await VoiceInteractionModule.speak(
                     "Drive detected. Would you like to switch to your English lesson?"
                 );
+
+                // 2. Listen
+                const response = await VoiceInteractionModule.listenForResponse();
+
+                // 3. Act
+                if (response) {
+                    const normalized = response.toLowerCase();
+                    if (normalized.includes('yes') || normalized.includes('sure') || normalized.includes('yeah')) {
+                        await VoiceInteractionModule.speak("Great. Starting lesson one.");
+                        // TODO: Trigger actual content here
+                    } else if (normalized.includes('no') || normalized.includes('cancel')) {
+                        await VoiceInteractionModule.speak("Okay, maybe next time.");
+                    }
+                } else {
+                    // Timeout / No detected audio
+                    // Quietly exit or maybe give a gentle hints? For now, quiet.
+                }
+
             } catch (error) {
                 console.error('Voice Interaction failed:', error);
             }
