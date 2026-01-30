@@ -1,5 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -10,7 +10,7 @@ import { useColorScheme } from '@/components/useColorScheme';
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
+  ErrorBoundary
 } from 'expo-router';
 
 export const unstable_settings = {
@@ -45,11 +45,24 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
+import DriveSentry from '@/src/core/drive-sentry/DriveSentry';
+import { usePersonalizationEngine } from '@/src/core/personalization/PersonalizationEngine';
+
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
+  // Initialize DrivePilot Systems
+  usePersonalizationEngine();
+
+  useEffect(() => {
+    // Initialize background services
+    DriveSentry.getInstance().initialize().catch(err =>
+      console.error('DriveSentry Init Failed:', err)
+    );
+  }, []);
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={DarkTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
